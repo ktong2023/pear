@@ -7,7 +7,7 @@ from keras import layers
 NUM_POINTS = 4096
 BATCH_SIZE = 32
 NUM_CLASSES = 2
-CLASS_MAP = {0: 'advripe_2018', 1: 'unripe_2020'}
+CLASS_MAP = {0: 'advripe_test', 1: 'unripe_test'}
 
 def conv_bn(x, filters):
     x = layers.Conv1D(filters, kernel_size=1, padding="valid")(x)

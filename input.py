@@ -61,12 +61,11 @@ def test_input (dir_path):
     input_dataset = input_dataset.shuffle(len(input_points)).batch(BATCH_SIZE)
 
     preds = model.predict(input_dataset)
-    print(preds)
     preds = tf.math.argmax(preds, -1)
     print(preds)
     return preds
 
-output_predictions = test_input(dir_path)
+output_predictions = test_input(dir_path).numpy()
 answer = dir_path.replace(dir_path[:2], '')
-for i in output_predictions:
-    print("prediction: ", CLASS_MAP[output_predictions[i].numpy()], " Answer: ", answer)
+for i in range(10):
+    print("prediction: ", CLASS_MAP[output_predictions[i]], " Answer: ", answer)
