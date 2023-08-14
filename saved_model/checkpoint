@@ -1,0 +1,2 @@
+model_checkpoint_path: "apple_ripeness_predictor_model"
+all_model_checkpoint_paths: "apple_ripeness_predictor_model"
