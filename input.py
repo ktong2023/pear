@@ -62,7 +62,6 @@ def test_input (dir_path):
 
     preds = model.predict(input_dataset)
     preds = tf.math.argmax(preds, -1)
-    print(preds)
     return preds
 
 output_predictions = test_input(dir_path).numpy()
