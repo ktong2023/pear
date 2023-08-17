@@ -26,7 +26,7 @@ x = tnet(x, 32)
 x = conv_bn(x, 32)
 x = conv_bn(x, 64)
 x = conv_bn(x, 512)
-x = layers.GlobalMaxPooling1D()(x)
+x = layers.GlobalMaxPooling1D()(x)  
 x = dense_bn(x, 256)
 x = layers.Dropout(0.3)(x)
 x = dense_bn(x, 128)
@@ -61,6 +61,8 @@ def test_input (dir_path):
     input_dataset = input_dataset.shuffle(len(input_points)).batch(BATCH_SIZE)
 
     preds = model.predict(input_dataset)
+
+    # Take the prediction with the highest probability and disregard values less than -1
     preds = tf.math.argmax(preds, -1)
     print(preds)
     return preds

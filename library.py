@@ -4,11 +4,16 @@ from tensorflow import keras
 import keras
 from keras import layers
 
+# Set initial variables for both .py files
+
+# The number of points taken from each point cloud for model training
 NUM_POINTS = 4096
+
 BATCH_SIZE = 32
 NUM_CLASSES = 2
 CLASS_MAP = {0: 'advripe_test', 1: 'unripe_test'}
 
+# Several different functions for building the CNN. This CNN was modeled after the PointNet model: https://github.com/keras-team/keras-io/blob/master/examples/vision/pointnet.py
 def conv_bn(x, filters):
     x = layers.Conv1D(filters, kernel_size=1, padding="valid")(x)
     x = layers.BatchNormalization(momentum=0.0)(x)
@@ -49,5 +54,4 @@ def tnet(inputs, num_features):
         activity_regularizer=reg,
     )(x)
     feat_T = layers.Reshape((num_features, num_features))(x)
-    # Apply affine transformation to input features
     return layers.Dot(axes=(2, 1))([inputs, feat_T])

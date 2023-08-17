@@ -11,7 +11,7 @@ tf.random.set_seed(1234)
 DATA_DIR = "./3-apple_point_clouds"
 
 
-
+# Seperate the data and create train and test datasets
 def parse_dataset(num_points):
     train_points = []
     train_labels = []
@@ -26,8 +26,10 @@ def parse_dataset(num_points):
         test_files = glob.glob(os.path.join(folder, "test/*"))
         for f in train_files:
             uneven_pc = np.loadtxt(f, delimiter=" ").tolist()
+            # Removing files that fall under the minimum required number of points in the point cloud
             if len(uneven_pc) < num_points:
                 continue
+            # Configuring each point cloud to the same number of points to input into the model
             even_pc = random.sample(uneven_pc, num_points)
             train_points.append(np.array(even_pc)[:,:6])
             train_labels.append(i)
@@ -48,11 +50,11 @@ def parse_dataset(num_points):
 
 train_points, test_points, train_labels, test_labels, CLASS_MAP = parse_dataset(NUM_POINTS)
 
+# Augmenting the point cloud data to reduce overfitting and increase accuracy
 def augment(points, label):
     points += tf.random.uniform(points.shape, -0.005, 0.005, dtype=tf.float64)
     points = tf.random.shuffle(points)
     return points, label
-
 
 train_dataset = tf.data.Dataset.from_tensor_slices((train_points, train_labels))
 test_dataset = tf.data.Dataset.from_tensor_slices((test_points, test_labels))
@@ -84,7 +86,6 @@ model.compile(
     optimizer=keras.optimizers.legacy.Adam(learning_rate=0.001),
     metrics=["sparse_categorical_accuracy"],
 )
-
 
 model.fit(train_dataset, epochs=20, validation_data=test_dataset)
 
