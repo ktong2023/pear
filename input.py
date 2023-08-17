@@ -64,7 +64,6 @@ def test_input (dir_path):
 
     # Take the prediction with the highest probability and disregard values less than -1
     preds = tf.math.argmax(preds, -1)
-    print(preds)
     return preds
 
 output_predictions = test_input(dir_path).numpy()
